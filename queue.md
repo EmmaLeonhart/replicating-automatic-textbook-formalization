@@ -27,10 +27,6 @@ agents, one week, 8 machines) cannot be re-run. The replication is therefore
 Work top to bottom; delete each item in the same commit that completes it (and
 append to `devlog.md`).
 
-5. **Check load-bearing references** (Grinberg textbook is public domain;
-   urban2026 single-agent 130k-topology precedent; mathlib ~2.2M LOC). Record
-   in `notes/claims.md`. Commit.
-
 6. **`lake build` the formalization** (user-consented heavy step). Capture
    pass/fail + build stats into `results/build.json`. If it can't finish
    locally / in CI, document why. Commit.

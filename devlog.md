@@ -62,3 +62,21 @@ Two of the three headline verifications now reproduce, with tests and CI.
   submodules, runs tests + `scripts/run.py`, uploads `results/`). All green
   locally. `scripts/run.py` consolidates into `results/summary.json`
   (all_pass=True). `requirements.txt` pins pytest.
+
+## 2026-06-13 — References verified; Lean build kicked off
+
+- **References** (`notes/claims.md`): verified the load-bearing citations.
+  - The formalized textbook, Grinberg "An Introduction to Algebraic
+    Combinatorics" (arXiv:2506.00738), is **703 pages** (paper: ">500"), **CC0 /
+    public domain** (paper: "public domain"), a graduate course text — all
+    confirmed. Its LaTeX source is vendored in the formalization repo
+    (`AlgebraicCombinatorics/tex/`, 47 files), so the side-by-side claim is real.
+  - The single-agent precedent (Urban, arXiv:2601.03298) does report ~130k lines
+    of topology in ~two weeks for ~$100. Noted a minor mischaracterization: that
+    work used the **Megalodon** set-theory system (not Lean) with ChatGPT 5.2 /
+    Claude Sonnet 4.5, which 2604.03071 loosely calls "Claude Code". Not material
+    to any reproduced number.
+- **Lean build**: installed `elan` + Lean toolchain `v4.28.0` (pinned by the
+  repo). Added `src/build_formalization.py` (runs `lake exe cache get` then
+  `lake build AlgebraicCombinatorics`, captures `results/build.json`) and started
+  the build in the background. Result recorded in the next entry.
