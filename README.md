@@ -10,11 +10,28 @@ We present a case study where an automatic AI system formalizes a textbook with 
 
 ## Replication status
 
-Not started. The agent-executable plan is in [`SKILL.md`](./SKILL.md);
-the concrete step queue is in [`queue.md`](./queue.md). The efficient path is
-**recipe-first**: get the LaTeX source, find and run the authors' reproduction
-recipe (often shipped right in the paper), then verify it against the paper and
-fill only the gaps.
+**Headline numbers reproduced.** This paper is a **case study** — a ~$100K,
+~30K-agent, one-week cluster run — so the experiment itself cannot be re-run by a
+third party. Instead, this replication independently verifies every headline
+number that the released artifacts and the paper's self-contained model make
+checkable. See [`FINDINGS.md`](./FINDINGS.md).
+
+| Claim | Reported | Reproduced |
+|---|---:|---:|
+| Lines of Lean | ~130,000 | **130,062** |
+| Lean declarations | ~5,900 | **5,884** |
+| Targets (chapters) | 344 (45) | **344 (45)** |
+| Cost, no caching | ~$430K | **$429,025** |
+| Cost, with caching | ~$100K | **$100,149** |
+| Output-token cost | ~$14K | **$14,025** |
+
+The "recipe" here is the authors' two public repos —
+[`repoprover`](https://github.com/facebookresearch/repoprover) (orchestration)
+and
+[`algebraic-combinatorics`](https://github.com/facebookresearch/algebraic-combinatorics)
+(the resulting Lean code base) — vendored as pinned submodules under
+`replication_target/`. Reproduce everything with `python scripts/run.py`.
+Step queue: [`queue.md`](./queue.md); methodology: [`SKILL.md`](./SKILL.md).
 
 ## What this repo produces
 
