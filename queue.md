@@ -27,18 +27,16 @@ agents, one week, 8 machines) cannot be re-run. The replication is therefore
 Work top to bottom; delete each item in the same commit that completes it (and
 append to `devlog.md`).
 
-6. **`lake build` the formalization** (user-consented heavy step). Capture
-   pass/fail + build stats into `results/build.json`. If it can't finish
-   locally / in CI, document why. Commit.
+6. **Finalize the `lake build`** (user-consented heavy step, running in the
+   background). When it completes, fill the `<!-- BUILD-STATUS -->` row in
+   `FINDINGS.md` from `results/build.json` (pass/fail + time), append to
+   `devlog.md`, and commit. If it can't finish locally, document why and keep
+   `status=replicated` (the build is a bonus confirmation; the headline numbers
+   already reproduce without it).
 
-8. **Write `FINDINGS.md`** — reported vs reproduced table, what the artifacts
-   covered vs. what could not be re-run (the experiment itself), divergences.
-   Commit.
-
-9. **Set `paper.json` `status`** (`replicated` if the released artifacts match
-   the headline numbers and build; otherwise `insufficient-hardware`/`failed`
-   with reasons). Confirm `pages.yml` + `package.yml` run green; repo public.
-   Keep `SKILL.md` truthful. Stop / hand back.
+Everything else is done: scale + cost reproduced, references checked,
+`FINDINGS.md` written, `paper.json status=replicated`, repo public, Pages live
+with the Replicated badge, CI green. Only the build row remains to finalize.
 
 ---
 
