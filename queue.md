@@ -6,109 +6,56 @@ longer-horizon items live in `todo.md`. **When an item is done, delete it
 from this file AND append a dated entry to `devlog.md` in the same commit,
 then push.** No checkmarks, no status indicators in place.
 
-**Why this file exists:** the replication plan is written here BEFORE
-execution so an interrupted session resumes from the queue, not from chat.
-The canonical methodology is `SKILL.md`; this queue is its executable form.
-
 ---
 
 ## Active — Replicate "Automatic Textbook Formalization" (arXiv:2604.03071)
 
-The scaffold already made commit 1 (the framework) AND commit 2 (the extracted
-arXiv source). The efficient path is: read the source, **find and run the
-authors' reproduction recipe FIRST**, then verify its output against the paper
-and fill only the gaps. From-scratch reimplementation is the fallback, not the
-default. Work top to bottom; delete each item in the same commit that completes
-it (and append to `devlog.md`).
+**Scope decided with the user (2026-06-13):** the full experiment ($100K, ~30K
+agents, one week, 8 machines) cannot be re-run. The replication is therefore
+**artifact-verification + a Lean build**:
 
-1. **STOP — get explicit user consent before running ANY external/cloned code.**
-   This is the first thing you do, before anything else. Replicating this paper
-   means executing code you did not write: the authors' reproduction recipe /
-   replication scripts, a cloned repo, a downloaded zip. Per harness safety
-   requirements, **ask the user for explicit consent to run such code and wait
-   for their answer before executing any of it.** Reading the paper, the
-   `source/`, and the recipe text is fine — *running* third-party code is the
-   gated action. (Downloading the arXiv source and extracting the tarball is
-   plain data handling, already done by the scaffolder, and is not gated.) An
-   automated security scan of the code before running is a future enhancement
-   (see `todo.md`); for now, only proceed if the user trusts the source.
+- The two authors' repos are the "recipe": `facebookresearch/repoprover`
+  (orchestration) and `facebookresearch/algebraic-combinatorics` (the resulting
+  Lean formalization). Both are public.
+- Headline numbers to verify against the released Lean repo: **130K lines of
+  Lean, 5,900 declarations, 340 target theorems/definitions**.
+- The Appendix-A cost/caching formula ($100K total, $14K output) is a closed
+  form with given inputs (N agents, T≈54.8 turns, C=83B input, 561M output) —
+  **recompute it exactly.**
+- User consented to **`lake build`** the formalization to confirm it compiles.
 
-2. **Read the already-extracted source.** The scaffolder downloaded the arXiv
-   **e-print source** (https://arxiv.org/src/2604.03071v1) and committed it to `replication_target/source/`
-   (commit 2) — far cheaper to read than the rendered HTML, which embeds figures
-   as huge base64 blobs. Read the paper straight from the `.tex` in `source/` —
-   no HTML→markdown step. (If `source/` is empty — e.g. the scaffold ran offline,
-   or the paper is PDF-only — run `python download_paper.py` now and commit it;
-   that is a plain download, not third-party code, so it is not gated.)
+Work top to bottom; delete each item in the same commit that completes it (and
+append to `devlog.md`).
 
-3. **Create the GitHub repo and push — now, not at the end.** Create a PUBLIC
-   repo and push: `gh repo create --public --source=. --push` (public is
-   required for free GitHub Pages). From here on every commit pushes, so CI and
-   Pages build as you go. (This is the step the v1.4.0 flow missed — the
-   replication ran entirely locally and never went live.)
+3. **Verify scale numbers** with `src/verify_scale.py`: count `.lean` lines and
+   declarations (`theorem|lemma|def|instance|...`) in the formalization repo;
+   count the 340 targets (blueprint / target markers). Emit
+   `results/scale.json` (reported vs reproduced). Commit.
 
-4. **Before any deep analysis: find the reproduction recipe in the source.**
-   This is the highest-leverage step and it comes before reading the whole
-   paper. Authors very often ship a recipe right in the e-print source —
-   usually near the end of the paper: a `SKILL.md` / `AGENTS.md`, a
-   `reproduce.*` / `replicate.*` / `run.sh` script, a `Makefile` reproduce
-   target, a Dockerfile, or a **replication zip** referenced in the text.
-   `download_paper.py` prints candidate files; also grep the `.tex` in `source/`
-   for "reproduc", "replicat", "skill", "github.com", and asset/zip URLs.
-   - Found a **skill/recipe file** → copy it to the repo root as
-     `replication_skill.md` and commit.
-   - Found a **replication zip** (in the source or linked in the paper) →
-     download/extract it into `replication/` (add the zip to `.gitignore`,
-     commit the extracted contents).
-   - Found the **authors' code repo** → add it as a git submodule under
-     `replication_target/` and record the decision in `notes/sources.md`.
-   - Found nothing → note that in `notes/sources.md`; the rest of the queue is
-     your from-scratch path.
+4. **Recompute the Appendix-A cost/caching model** in `src/cost_model.py` from
+   the paper's given inputs; reproduce $P_nocache$, $P_cache$, the $100K/$14K
+   figures and avg T≈54.8. Emit `results/cost.json`. Unit-test the formula.
+   Commit.
 
-5. **If a recipe exists, RUN IT FIRST and let it drive the rest.** (Only after
-   the user's consent from step 1.) Set up just enough environment to execute
-   it, run it, and capture its output into
-   `results/`. Then read the paper and assess **how much of the headline claims
-   the recipe's output actually reproduces** — which numbers/figures it covers
-   and which it doesn't. Record this in `notes/sources.md`. With a working
-   recipe, most of what follows is *verifying its output against the paper*, not
-   reimplementing from scratch. Commit.
+5. **Check load-bearing references** (Grinberg textbook is public domain;
+   urban2026 single-agent 130k-topology precedent; mathlib ~2.2M LOC). Record
+   in `notes/claims.md`. Commit.
 
-6. **Check ALL references — always, recipe or not.** Walk the bibliography and
-   confirm the key cited results / datasets / baselines the paper leans on
-   actually say what the paper claims. This runs in every replication. Record
-   anything load-bearing or surprising in `notes/claims.md`. Commit.
+6. **`lake build` the formalization** (user-consented heavy step). Capture
+   pass/fail + build stats into `results/build.json`. If it can't finish
+   locally / in CI, document why. Commit.
 
-7. **Record `notes/claims.md`** — scoped to whatever the recipe did NOT already
-   cover: headline claim(s); datasets (version/hash, where they live);
-   models/methods in re-implementable detail; evaluation metrics and the exact
-   reported numbers; compute envelope (GPU type, hours, memory — decides if CI
-   can auto-run it). If the recipe covered everything, this is a short
-   confirmation. Commit.
+7. **`scripts/run.py`** — wire the verifications (scale + cost, and build if
+   feasible) into the CI entry point; emit consolidated `results/`. Commit.
 
-8. **Reimplement only the uncovered claims** under `src/` (skip anything the
-   recipe already reproduced; scope to the headline claim, not every ablation).
-   Pin the environment in `requirements.txt` / `environment.yml` to versions
-   that work. Commit as you go.
+8. **Write `FINDINGS.md`** — reported vs reproduced table, what the artifacts
+   covered vs. what could not be re-run (the experiment itself), divergences.
+   Commit.
 
-9. **Run the full replication** via `scripts/run.py` (the CI entry point);
-   capture metrics as JSON into `results/`. Commit.
-
-10. **Write `FINDINGS.md`:** reproduced vs. reported numbers (table); what the
-    recipe covered vs. what you filled; gaps (hyperparameters, preprocessing,
-    omitted architecture details) and where/why it diverged. Commit and push.
-
-11. **Publish and finish.** Set the replication verdict in `paper.json`
-    `status` — `replicated` / `failed` / `insufficient-hardware` — so the
-    report's big status badge turns green / red / amber (it defaults to
-    `in-progress`, blue). Confirm `.github/workflows/pages.yml` (themed site +
-    PDF report) and `.github/workflows/package.yml` (ZIP) run green; set
-    Settings → Pages → Source: GitHub Actions. Keep `SKILL.md` (and
-    `replication_skill.md`, if you found one) truthful to what you actually did.
-    **Stop / hand back** when `FINDINGS.md` reports at least one headline number
-    with its reproduced value, `scripts/run.py` runs end-to-end from a clean
-    clone (or documents the un-automatable data step), the repo is public and
-    pushed, and the Pages deployment is green.
+9. **Set `paper.json` `status`** (`replicated` if the released artifacts match
+   the headline numbers and build; otherwise `insufficient-hardware`/`failed`
+   with reasons). Confirm `pages.yml` + `package.yml` run green; repo public.
+   Keep `SKILL.md` truthful. Stop / hand back.
 
 ---
 

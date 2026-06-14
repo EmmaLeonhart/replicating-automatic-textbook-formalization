@@ -1,0 +1,6 @@
+[submodule "replication_target/repoprover"]
+	path = replication_target/repoprover
+	url = https://github.com/facebookresearch/repoprover.git
+[submodule "replication_target/algebraic-combinatorics"]
+	path = replication_target/algebraic-combinatorics
+	url = https://github.com/facebookresearch/algebraic-combinatorics.git
