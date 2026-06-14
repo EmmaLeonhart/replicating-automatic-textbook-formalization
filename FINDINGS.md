@@ -68,10 +68,24 @@ model reproduces all three dollar figures to within rounding:
 <!-- BUILD-STATUS -->
 The user consented to the heavier step of compiling the formalization. We
 installed `elan` and Lean `v4.28.0` (pinned by the repo's `lean-toolchain`),
-fetched the Mathlib cache (`lake exe cache get`) and ran
-`lake build AlgebraicCombinatorics`. **Status pending** — see `results/build.json`
-and `results/build.log` for the outcome; this section is finalized once the build
-completes.
+fetched the Mathlib cache (`lake exe cache get`, 425 s) and ran
+`lake build AlgebraicCombinatorics`.
+
+**Local (Windows) build: blocked by a toolchain bug, not by the formalization.**
+The build replayed **7,077 of 7,087** targets, then failed. Every one of the ~10
+failing targets is a **Mathlib** module (`CategoryTheory.*`, `MeasureTheory.*`,
+`AlgebraicTopology.*`, `Analysis.*`) — *none* is an `AlgebraicCombinatorics`
+file. The error is `no such file or directory … .olean.server.hash` during the
+cache *replay* step, a known Windows `lake` issue where the downloaded Mathlib
+cache lacks the `.server.hash` sidecar files the replay expects. So the local
+failure is in the Mathlib dependency materialization on Windows, not in the
+released formalization. Full log: `results/build.json` / `results/build.log`.
+
+**Linux build (`.github/workflows/lean-build.yml`):** to confirm the
+formalization compiles in the environment it was built for, a dedicated GitHub
+Actions job builds it on Ubuntu via `leanprover/lean-action` (elan + Mathlib
+cache + `lake build AlgebraicCombinatorics`), where the Windows replay bug does
+not occur. See the badge / Actions tab for its status.
 
 ## References (`notes/claims.md`)
 

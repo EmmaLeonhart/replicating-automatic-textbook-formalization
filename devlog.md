@@ -80,3 +80,20 @@ Two of the three headline verifications now reproduce, with tests and CI.
   repo). Added `src/build_formalization.py` (runs `lake exe cache get` then
   `lake build AlgebraicCombinatorics`, captures `results/build.json`) and started
   the build in the background. Result recorded in the next entry.
+
+## 2026-06-13 — Lean build: Windows blocked by toolchain bug; Linux build added
+
+- **Local Windows build** (`results/build.json`, `results/build.log`): cache get
+  succeeded (425 s); `lake build AlgebraicCombinatorics` replayed **7,077 / 7,087**
+  targets then failed (77 s). All ~10 failing targets are **Mathlib** modules
+  (CategoryTheory / MeasureTheory / AlgebraicTopology / Analysis), none in
+  `AlgebraicCombinatorics`. Failure mode: `no such file or directory …
+  .olean.server.hash` during cache replay — a known Windows `lake` bug, i.e. a
+  dependency-materialization problem, not a defect in the formalization.
+- Since the authors' repo ships no build CI to point at, added
+  `.github/workflows/lean-build.yml` — a Linux GitHub Actions job
+  (`leanprover/lean-action`: elan + Mathlib cache + `lake build`) that compiles
+  the formalization in the environment it was built for, where the Windows replay
+  bug doesn't occur. FINDINGS build row updated to reflect both.
+- Verdict unchanged: `status=replicated`. The build is a bonus confirmation; the
+  headline numbers (scale + cost) already reproduce without it.

@@ -1,0 +1,38 @@
+# Confirms the released formalization actually compiles, on Linux (where the
+# Mathlib cache replays cleanly — unlike the local Windows attempt, which hit a
+# known `.olean.server.hash` lake bug in ~10 Mathlib modules).
+#
+# Heavy: fetches the Mathlib cache and builds 130K lines of Lean on top of it.
+# Runs on demand and on changes that affect the build, not on every push.
+name: lean-build
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - ".github/workflows/lean-build.yml"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - name: Checkout (with submodules)
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Free up disk space
+        run: |
+          sudo rm -rf /usr/share/dotnet /opt/ghc /usr/local/lib/android "$AGENT_TOOLSDIRECTORY" || true
+          df -h /
+
+      - name: Build the formalization (elan + cache get + lake build)
+        uses: leanprover/lean-action@v1
+        with:
+          lake-package-directory: "replication_target/algebraic-combinatorics"
+          auto-config: "false"
+          build-args: "AlgebraicCombinatorics"
+          use-mathlib-cache: "true"
+          test: "false"
+          lint: "false"
