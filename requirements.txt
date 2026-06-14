@@ -1,0 +1,4 @@
+# Replication of arXiv:2604.03071 — verification & cost-model reproduction.
+# The verifications use only the Python standard library; pytest is for the
+# test suite. Pinned to versions known to work for this replication.
+pytest==8.3.4

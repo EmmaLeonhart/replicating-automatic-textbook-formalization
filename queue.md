@@ -27,16 +27,6 @@ agents, one week, 8 machines) cannot be re-run. The replication is therefore
 Work top to bottom; delete each item in the same commit that completes it (and
 append to `devlog.md`).
 
-3. **Verify scale numbers** with `src/verify_scale.py`: count `.lean` lines and
-   declarations (`theorem|lemma|def|instance|...`) in the formalization repo;
-   count the 340 targets (blueprint / target markers). Emit
-   `results/scale.json` (reported vs reproduced). Commit.
-
-4. **Recompute the Appendix-A cost/caching model** in `src/cost_model.py` from
-   the paper's given inputs; reproduce $P_nocache$, $P_cache$, the $100K/$14K
-   figures and avg T≈54.8. Emit `results/cost.json`. Unit-test the formula.
-   Commit.
-
 5. **Check load-bearing references** (Grinberg textbook is public domain;
    urban2026 single-agent 130k-topology precedent; mathlib ~2.2M LOC). Record
    in `notes/claims.md`. Commit.
@@ -44,9 +34,6 @@ append to `devlog.md`).
 6. **`lake build` the formalization** (user-consented heavy step). Capture
    pass/fail + build stats into `results/build.json`. If it can't finish
    locally / in CI, document why. Commit.
-
-7. **`scripts/run.py`** — wire the verifications (scale + cost, and build if
-   feasible) into the CI entry point; emit consolidated `results/`. Commit.
 
 8. **Write `FINDINGS.md`** — reported vs reproduced table, what the artifacts
    covered vs. what could not be re-run (the experiment itself), divergences.
