@@ -27,16 +27,11 @@ agents, one week, 8 machines) cannot be re-run. The replication is therefore
 Work top to bottom; delete each item in the same commit that completes it (and
 append to `devlog.md`).
 
-6. **Confirm the Linux Lean build** (`.github/workflows/lean-build.yml`, running
-   in GitHub Actions). The local Windows build is done and documented (blocked by
-   a Mathlib cache-replay bug, not the formalization). When the Linux job
-   finishes, record pass/fail in `FINDINGS.md` + `devlog.md` and commit. Keep
-   `status=replicated` regardless — the build is a bonus confirmation; the
-   headline numbers already reproduce.
-
-Everything else is done: scale + cost reproduced, references checked,
-`FINDINGS.md` written, `paper.json status=replicated`, repo public, Pages live
-with the Replicated badge, CI green.
+**Replication complete.** Scale + cost reproduced, references checked, Linux
+`lake build` confirmed (8078 jobs), `FINDINGS.md` written, `paper.json
+status=replicated`, repo public, Pages live with the Replicated badge, CI green.
+Nothing left in scope — see `devlog.md` for the trail and `FINDINGS.md` for the
+report. Longer-horizon ideas (if any) live in `todo.md`.
 
 ---
 

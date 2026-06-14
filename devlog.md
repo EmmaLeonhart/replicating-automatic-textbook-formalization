@@ -97,3 +97,19 @@ Two of the three headline verifications now reproduce, with tests and CI.
   bug doesn't occur. FINDINGS build row updated to reflect both.
 - Verdict unchanged: `status=replicated`. The build is a bonus confirmation; the
   headline numbers (scale + cost) already reproduce without it.
+
+## 2026-06-14 — Linux build confirmed: the formalization compiles
+
+- The `lean-build` Linux job now genuinely compiles the formalization:
+  **`Build completed successfully (8078 jobs)`**, all **52**
+  `AlgebraicCombinatorics.*` modules built on top of Mathlib (~11.5 min). A few
+  modules emit "declaration uses `sorry`" *warnings* (the 5 exercise-file sorrys
+  per the repo's SUMMARY) — warnings, not errors; the build passes.
+- Caught and fixed a false positive: the first `lean-build` run reported success
+  in 3m30s but, on inspecting the log, had only run elan + `lake exe cache get` +
+  cache-save — `lake build AlgebraicCombinatorics` never ran, because with
+  `auto-config: false` the `build: default` step is a no-op. Setting `build: true`
+  forces the real build (the 11m39s run above). FINDINGS build row updated from
+  ⏳ to ✅ on the strength of the real run.
+- Replication complete: scale ✅, cost ✅, references ✅, build ✅, `status=replicated`,
+  repo public, Pages live, CI green.

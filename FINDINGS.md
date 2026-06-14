@@ -33,7 +33,7 @@ checkable, and this replication checks all three.
 | Cost, no caching | ~$430K | **$429,025** | ✅ |
 | Cost, with caching | ~$100K | **$100,149** | ✅ |
 | Output-token cost | ~$14K | **$14,025** | ✅ |
-| Formalization compiles (`lake build`) | builds | _see Build below_ | ⏳ |
+| Formalization compiles (`lake build`) | builds | builds (8078 jobs, Linux CI) | ✅ |
 
 Numbers from `results/scale.json` and `results/cost.json`; regenerate with
 `python scripts/run.py`.
@@ -81,11 +81,22 @@ cache lacks the `.server.hash` sidecar files the replay expects. So the local
 failure is in the Mathlib dependency materialization on Windows, not in the
 released formalization. Full log: `results/build.json` / `results/build.log`.
 
-**Linux build (`.github/workflows/lean-build.yml`):** to confirm the
-formalization compiles in the environment it was built for, a dedicated GitHub
-Actions job builds it on Ubuntu via `leanprover/lean-action` (elan + Mathlib
-cache + `lake build AlgebraicCombinatorics`), where the Windows replay bug does
-not occur. See the badge / Actions tab for its status.
+**Linux build: SUCCESS.** A dedicated GitHub Actions job
+(`.github/workflows/lean-build.yml`, `leanprover/lean-action`: elan + Mathlib
+cache + `lake build AlgebraicCombinatorics`) compiles the formalization on Ubuntu,
+where the Windows replay bug does not occur. The build reaches
+**`Build completed successfully (8078 jobs)`** — all **52** `AlgebraicCombinatorics.*`
+modules compile on top of Mathlib (~11.5 min wall-clock). A handful of modules
+emit the expected "declaration uses `sorry`" warning, corresponding to the 5
+`sorry` tactics the repo's `SUMMARY.md` documents as living only in
+*exercise* files (exercises are out of scope — the paper formalizes statements,
+it does not solve exercises); these are warnings, not errors, and the build
+passes. So the released formalization genuinely compiles.
+
+(Note: an earlier run of this workflow with `auto-config: false` and `build:
+default` silently skipped the build step — it only fetched the Mathlib cache.
+Setting `build: true` forces the actual `lake build`; that is the run reported
+above.)
 
 ## References (`notes/claims.md`)
 
@@ -116,7 +127,8 @@ not occur. See the badge / Actions tab for its status.
 
 Every headline *number* that a third party can check against the released
 artifacts — 130K LOC, ~5,900 declarations, 344 targets, and the $100K/$430K/$14K
-cost model — **reproduces**. The parts that don't reproduce are the ones that
+cost model — **reproduces**, and the released formalization **compiles** (8078
+jobs, Linux CI). The parts that don't reproduce are the ones that
 are structurally un-reproducible (a $100K one-week cluster run) or out of scope
 (semantic faithfulness), not failures of the claims. The replication verdict is
 recorded in `paper.json`.
