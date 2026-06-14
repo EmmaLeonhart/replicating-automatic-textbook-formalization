@@ -32,7 +32,8 @@ jobs:
         with:
           lake-package-directory: "replication_target/algebraic-combinatorics"
           auto-config: "false"
-          build-args: "AlgebraicCombinatorics"
+          build: "true"            # force `lake build`; with auto-config off,
+          build-args: "AlgebraicCombinatorics"   # `default` skips it entirely
           use-mathlib-cache: "true"
           test: "false"
           lint: "false"
