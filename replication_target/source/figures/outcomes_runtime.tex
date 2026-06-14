@@ -1,0 +1,12 @@
+\begin{figure}[tb]
+  \centering
+  \includegraphics[width=\linewidth]{images/agent_token_breakdown.pdf}
+  \caption{\textbf{Agent outcomes over time by amount (left) and proportion (right) of tokens spent.}
+  See Section~\ref{sec:outcomes} for the taxonomy of agent outcomes.
+  The data is averaged over rolling windows of 400 agents and excludes short debugging runs that marginally contributed to the repository. Dotted vertical lines indicate interventions or restarts (typically minor code changes for efficiency and better observability). Detailed token statistics are not available for the first hours of the run.
+  It can be seen that the initial code suffered from performance issues (especially regarding NFS bottlenecks, \texttt{git worktree} timeouts and merge queue congestion), resulting in a large number of tokens spent on \emph{aborted} agents.
+  Later versions removed these problems, and mainly suffered from issue dependencies as evidenced by a large number of \emph{blocked} agents. This could be resolved with a targeted intervention of \emph{status agents} that cleaned up stale issues, analyzed the dependencies and suggested a course of action, resulting in an increased success rate in the latest stage of the run.
+  Note that merged PRs can also exclusively touch issue files, especially in the case of \emph{maintainer} agents, and hence success rates of close to 100\% should be achievable.
+  }
+  \label{fig:outcomes-runtime}
+\end{figure}

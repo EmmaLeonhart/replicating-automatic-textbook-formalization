@@ -1,0 +1,215 @@
+%% Math packages
+\usepackage{mathtools} % This loads amsmath with addition
+% \usepackage[nonewtxmathopt]{newtxmath} % This loads amsfonts and amssymb but conflicts with amsthm
+% \let\openbox\undefined % Avoid conflicts between newtxmath and amsthm
+% \usepackage{amsmath}
+\usepackage{amsfonts,amssymb}
+% \usepackage{stmaryrd}
+\usepackage{amsthm}
+
+%% Alphabet
+% ... Blackboard-bold
+\def\bA{{\mathbb{A}}}
+\def\bB{{\mathbb{B}}}
+\def\bC{{\mathbb{C}}}
+\def\bD{{\mathbb{D}}}
+\def\bE{{\mathbb{E}}}
+\def\bF{{\mathbb{F}}}
+\def\bG{{\mathbb{G}}}
+\def\bH{{\mathbb{H}}}
+\def\bI{{\mathbb{I}}}
+\def\bJ{{\mathbb{J}}}
+\def\bK{{\mathbb{K}}}
+\def\bL{{\mathbb{L}}}
+\def\bM{{\mathbb{M}}}
+\def\bN{{\mathbb{N}}}
+\def\bO{{\mathbb{O}}}
+\def\bP{{\mathbb{P}}}
+\def\bQ{{\mathbb{Q}}}
+\def\bR{{\mathbb{R}}}
+\def\bS{{\mathbb{S}}}
+\def\bT{{\mathbb{T}}}
+\def\bU{{\mathbb{U}}}
+\def\bV{{\mathbb{V}}}
+\def\bW{{\mathbb{W}}}
+\def\bX{{\mathbb{X}}}
+\def\bY{{\mathbb{Y}}}
+\def\bZ{{\mathbb{Z}}}
+
+% ... Caligraphic
+\def\cA{{\mathcal{A}}}
+\def\cB{{\mathcal{B}}}
+\def\cC{{\mathcal{C}}}
+\def\cD{{\mathcal{D}}}
+\def\cE{{\mathcal{E}}}
+\def\cF{{\mathcal{F}}}
+\def\cG{{\mathcal{G}}}
+\def\cH{{\mathcal{H}}}
+\def\cI{{\mathcal{I}}}
+\def\cJ{{\mathcal{J}}}
+\def\cK{{\mathcal{K}}}
+\def\cL{{\mathcal{L}}}
+\def\cM{{\mathcal{M}}}
+\def\cN{{\mathcal{N}}}
+\def\cO{{\mathcal{O}}}
+\def\cP{{\mathcal{P}}}
+\def\cQ{{\mathcal{Q}}}
+\def\cR{{\mathcal{R}}}
+\def\cS{{\mathcal{S}}}
+\def\cT{{\mathcal{T}}}
+\def\cU{{\mathcal{U}}}
+\def\cV{{\mathcal{V}}}
+\def\cW{{\mathcal{W}}}
+\def\cX{{\mathcal{X}}}
+\def\cY{{\mathcal{Y}}}
+\def\cZ{{\mathcal{Z}}}
+
+% ... Fraktur
+\def\fA{\mathfrak{A}}
+\def\fB{\mathfrak{B}}
+\def\fC{\mathfrak{C}}
+\def\fD{\mathfrak{D}}
+\def\fE{\mathfrak{D}}
+\def\fF{\mathfrak{F}}
+\def\fG{\mathfrak{G}}
+\def\fH{\mathfrak{H}}
+\def\fI{\mathfrak{I}}
+\def\fJ{\mathfrak{J}}
+\def\fK{\mathfrak{K}}
+\def\fL{\mathfrak{L}}
+\def\fM{\mathfrak{M}}
+\def\fN{\mathfrak{N}}
+\def\fO{\mathfrak{O}}
+\def\fP{\mathfrak{P}}
+\def\fQ{\mathfrak{Q}}
+\def\fR{\mathfrak{R}}
+\def\fS{\mathfrak{S}}
+\def\fT{\mathfrak{T}}
+\def\fU{\mathfrak{U}}
+\def\fV{\mathfrak{V}}
+\def\fW{\mathfrak{W}}
+\def\fX{\mathfrak{X}}
+\def\fY{\mathfrak{Y}}
+\def\fZ{\mathfrak{Z}}
+
+%% Symboles
+% ... sets
+\def\C{\bC}
+\def\N{\bN}
+\def\Q{\bQ}
+\def\R{\bR}
+\def\Z{\bZ}
+\def\ind#1{\mathbf{1}_{#1}}
+\def\card#1{\left\vert #1 \right\vert}
+
+% ... integration, distribution, probability
+\def\E{\bE}
+\def\Pbb{\bP}
+\def\prob#1{\Delta_{#1}}
+\def\diff{\mathop{}\!\mathrm{d}}
+% \def\binomial#2{\text{Binom}\paren{#1, #2}}
+\def\uniform#1{{\cal U}\paren{#1}}
+
+% ... functions
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
+
+% ... operators
+\DeclareMathOperator{\Div}{div}
+\DeclareMathOperator{\Span}{Span}
+\DeclareMathOperator{\cov}{cov}
+\DeclareMathOperator{\diag}{diag}
+\DeclareMathOperator{\diam}{diam}
+\DeclareMathOperator*{\esssup}{ess\,sup}
+\DeclareMathOperator{\grad}{grad}
+\DeclareMathOperator{\hull}{Conv}
+\DeclareMathOperator{\ima}{im}
+\DeclareMathOperator{\orb}{orb}
+\DeclareMathOperator{\op}{op}
+\DeclareMathOperator{\rank}{rank}
+\DeclareMathOperator{\sign}{sign}
+\DeclareMathOperator{\spec}{spec}
+\DeclareMathOperator*{\supp}{supp}
+\DeclareMathOperator{\trace}{Tr}
+
+% ... brackets
+\def\bangle#1{\left\langle #1 \right\rangle}
+\def\bbracket#1{\left\llbracket #1 \right\rrbracket}
+\let\brace\relax
+\def\brace#1{\left\{ #1 \right\}}
+\def\bracket#1{\left[ #1 \right]}
+\def\floor#1{\left\lfloor #1 \right\rfloor}
+\def\ceil#1{\left\lceil #1 \right\rceil}
+\def\paren#1{\left( #1 \right)}
+\def\midvert{\,\middle\vert\,\mathopen{}}
+\def\midvvert{\,\middle\vert\vert\,\mathopen{}}
+
+% ... brackets type operations
+\def\abs#1{\left| #1 \right|}
+\def\module#1{\left| #1 \right|}
+\def\norm#1{\left\| #1 \right\|}
+\def\scap#1#2{\left\langle #1, #2 \right\rangle}
+\def\bscap#1#2{\left\langle #1 \middle\vert #2 \right\rangle}
+
+% ... brackets with delimiter
+\providecommand{\midvertd}{\,\vert\,\mathopen{}}
+\providecommand{\midvvertd}{\,\|\,\mathopen{}}
+\DeclarePairedDelimiter\bangled{\langle}{\rangle}
+\DeclarePairedDelimiter\bbracketd{\llbracket}{\rrbracket}
+\let\braced\relax
+\DeclarePairedDelimiterX\braced[1]{\{}{\}}{#1}
+\DeclarePairedDelimiterX\bracketd[1]{[}{]}{#1}
+\DeclarePairedDelimiter\ceild{\lceil}{\rceil}
+\DeclarePairedDelimiter\floord{\lfloor}{\rfloor}
+\DeclarePairedDelimiter\parend{(}{)}
+\DeclarePairedDelimiter\absd{|}{|}
+\DeclarePairedDelimiter\moduled{|}{|}
+\DeclarePairedDelimiter\normd{\|}{\|}
+\DeclarePairedDelimiterX\scapd[2]{\langle}{\rangle}{#1, #2}
+\DeclarePairedDelimiterX\bscapd[2]{\langle}{\rangle}{#1\midvert #2}
+
+% ... abbreviation
+\def\Sfrak{\mathfrak{S}}
+\def\X{\mathcal{X}}
+\def\Y{\mathcal{Y}}
+
+%% Command
+\def\deriv#1#2{\frac{\mathrm d #1}{\mathrm d #2}}
+\def\note#1{\textcolor{red}{#1}}
+
+% ... aethestic
+\renewcommand{\epsilon}{\varepsilon}
+\renewcommand{\phi}{\varphi}
+
+% ... missing symbols
+% \newcommand{\independent}{\protect\mathpalette{\protect\independenT}{\perp}}
+% \def\independenT#1#2{\mathrel{\rlap{$#1#2$}\mkern2mu{#1#2}}}
+
+%% Environments
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{lemma}{Lemma}
+\newtheorem{proposition}[lemma]{Proposition}
+% \theoremstyle{definition}
+\newtheorem{definition}[lemma]{Definition}
+\newtheorem{assumption}{Assumption}
+% \theoremstyle{remark}
+\newtheorem{remark}[lemma]{Remark}
+\newtheorem{example}{Example}
+
+%% Optimization problems
+\newcommand{\minimize}[2]{
+\begin{array}{rl}
+	\text{minimize } & #1 \\
+	\text{subject to } & #2 
+\end{array}
+}
+
+%% Function
+\newcommand{\myfunction}[5]{
+\begin{array}{cccc}
+	#1 : & #2 & \rightarrow & #3 \\
+	 & #4 & \rightarrow & #5
+\end{array}
+}
